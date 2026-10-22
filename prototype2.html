@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Recruiter-led candidate screening and shortlisting with configurable criteria and linked interview evidence.">
+  <title>Recruiter Workspace · Head Hunters</title>
+  <link rel="icon" href="logo.png">
+  <link rel="stylesheet" href="report.css">
+  <link rel="stylesheet" href="prototype2.css">
+  <script defer src="report-data.js"></script>
+  <script defer src="interview-evidence.js"></script>
+  <script defer src="prototype2.js"></script>
+</head>
+<body>
+<header class="app-header">
+  <div class="brandmark"><img src="logo.png" alt="Head Hunters"></div>
+  <div class="workspace"><span class="workspace-icon" aria-hidden="true">HH</span><span>Recruiter workspace</span></div>
+</header>
+<main class="report-shell p2-shell">
+  <div class="breadcrumbs">Recruiting <span>/</span> Interview reports <span>/</span><strong>Candidate workspace</strong></div>
+  <div class="page-heading p2-page-heading">
+    <div><p class="eyebrow">POST-INTERVIEW REPORT</p>
+      <h1>You set the criteria.<br><span>We surface the evidence.</span></h1>
+      <p class="intro">Explore candidates on your terms. Adjust requirements, sort the pool, and build a shortlist you can explain.</p>
+    </div>
+    <div class="p2-heading-actions"><button class="button button-outline" id="export" type="button">↓ &nbsp;Export current view</button></div>
+  </div>
+  <div class="report-context">
+    <div class="role-field"><label for="role">JOB POSITION</label><select id="role"><option value="ai">AI Software Engineer</option><option value="fe">Senior Frontend Engineer</option><option value="de">Data Engineer</option></select></div>
+    <div class="context-divider"></div><span class="status-dot"></span><span>8 simulated interviews available for review</span><span class="demo-badge">FICTIONAL DEMO DATA</span>
+  </div>
+  <div class="demo-note"><span class="info-symbol" aria-hidden="true">i</span><p>All names, scores, and interview examples are fictional. Filters are recruiter-controlled; this demo does not verify evidence or make automated hiring decisions.</p></div>
+  <div class="p2-stats" aria-label="Applicant pool summary">
+    <div class="p2-stat"><span>Interviewed candidates</span><strong id="stat-total">08</strong><small>available for review</small></div>
+    <div class="p2-stat"><span>Meeting your requirements</span><strong id="stat-matches" aria-live="polite">—</strong><small>changes with required filters</small></div>
+    <div class="p2-stat"><span>In your shortlist</span><strong id="stat-shortlist">00</strong><small>selected by you, not AI</small></div>
+    <div class="p2-stat p2-stat-last"><span>In this version</span><strong class="p2-stat-feature">Your criteria <span>→</span></strong><small>control the next decision</small></div>
+  </div>
+  <section class="p2-workspace" aria-label="Customize and review applicants">
+    <aside class="p2-control-panel">
+      <div class="p2-control-top">
+        <div class="p2-panel-heading"><div><p class="eyebrow">01 / YOUR SCREENING RULES</p><h2>What matters to you?</h2></div><button id="reset" class="p2-link-button" type="button">Reset</button></div>
+        <p class="p2-panel-helper">Set the minimum evidence score for each competency. Required rules determine who appears in the matched view; preferred rules stay visible for comparison.</p>
+        <label class="p2-field-label" for="preset">EXPLORE A SCENARIO</label>
+        <select id="preset" class="p2-select p2-preset">
+          <option value="balanced">Balanced technical screen</option>
+          <option value="technical">Technical depth first</option>
+          <option value="team">Collaboration first</option>
+          <option value="none">Start from scratch</option><option value="custom" hidden>Custom selection</option>
+        </select>
+      </div>
+      <div class="p2-rule-header"><span>COMPETENCIES</span><span id="rule-counter">2 selected</span></div>
+      <div id="criteria-list" class="p2-criteria-list"></div>
+      <button id="add-rule" class="p2-add-rule" type="button"><span aria-hidden="true">＋</span> Add another competency</button>
+      <div class="p2-logic-box"><span class="p2-field-label">MATCH REQUIRED RULES</span><div class="p2-logic-controls" role="group" aria-label="Required filters logic"><button type="button" data-logic="all" aria-pressed="true">Match all</button><button type="button" data-logic="any" aria-pressed="false">Match any</button></div><p>Preferred rules never exclude an applicant.</p></div>
+      <p class="p2-rule-note">Interview scores are illustrative 0–100 ratings; they are not validated hiring benchmarks.</p>
+    </aside>
+    <div class="p2-results-area">
+      <div class="p2-results-head"><div><p class="eyebrow">02 / INTERVIEWED CANDIDATES</p><h2>Your candidate workspace</h2><p id="results-caption">Adjust the rules on the left to update this view.</p></div><button type="button" id="compare" class="button button-outline p2-compare-button">Compare shortlist <span id="compare-count">(0)</span></button></div>
+      <div class="p2-toolbar"><label class="p2-search-wrap"><span aria-hidden="true">⌕</span><span class="sr-only">Search candidate names</span><input id="search" type="search" placeholder="Search candidates by name…" autocomplete="off"></label>
+        <label class="p2-sort-wrap">Sort by <select id="sort" class="p2-select" aria-label="Sort candidates"><option value="name">Name</option><option value="years">Experience</option></select></label>
+        <button id="direction" class="p2-direction" type="button" aria-label="Sort descending" title="Reverse sort order">A → Z</button>
+      </div>
+      <div class="p2-view-row"><div class="p2-view-switch" role="group" aria-label="Display candidates"><button type="button" data-view="matched" aria-pressed="true">Matching criteria</button><button type="button" data-view="all" aria-pressed="false">All applicants</button><button type="button" data-view="shortlisted" aria-pressed="false">My shortlist</button></div><span id="visible-count" aria-live="polite"></span></div>
+      <div class="p2-table-frame"><div id="table-container" class="p2-table-scroller" role="region" aria-label="Interactive candidate results" tabindex="0"></div></div>
+      <div class="p2-table-footnote"><span><span class="p2-dot p2-dot-yes"></span> Meets every required rule</span><span><span class="p2-dot p2-dot-no"></span> Below a requirement</span><span>Click a candidate to inspect the interview evidence ↗</span></div>
+      <div id="compare-panel" class="p2-comparison" hidden></div>
+      <div class="p2-guidance"><span class="p2-guidance-mark" aria-hidden="true">✳</span><div><strong>The recruiter remains in control.</strong><p>Define minimums, change the sort order, inspect supporting interview examples, and decide whom to shortlist.</p></div></div>
+    </div>
+  </section>
+  <footer><span>HEAD HUNTERS <span class="footer-dot">/</span> Recruiter-led exploration</span><span>Fictional evidence · User-controlled choices · Human review</span></footer>
+</main>
+<dialog class="p2-detail-dialog" id="detail-dialog" aria-labelledby="detail-name"><div class="p2-dialog-content"><header class="p2-detail-header"><div><p class="eyebrow">CANDIDATE DETAILS / DEMO DATA</p><h2 id="detail-name">Candidate</h2><p id="detail-subtitle"></p></div><button id="close-detail" type="button" aria-label="Close candidate details" class="p2-icon-close">×</button></header><div id="detail-body"></div></div></dialog>
+</body>
+</html>
